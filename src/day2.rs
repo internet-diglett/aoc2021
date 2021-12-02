@@ -107,9 +107,9 @@ fn calculate_position_v2(commands: &[Command]) -> Position {
 
 fn parse_command(regex: &Regex, command: &str) -> Option<Command> {
     let caps = regex.captures(command).expect("Not a valid command!");
-    let direction = caps.get(1).unwrap().as_str();
-    let distance = caps.get(2).unwrap().as_str();
-    let distance: usize = distance.parse().unwrap();
+    let direction = caps.get(1)?.as_str();
+    let distance = caps.get(2)?.as_str();
+    let distance: usize = distance.parse().ok()?;
     match direction {
         "forward" => Some(Command::Forward(distance)),
         "down" => Some(Command::Down(distance)),
