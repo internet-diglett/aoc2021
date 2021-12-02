@@ -57,7 +57,7 @@ impl Solver {
     }
 }
 
-fn count_increases(input: &Vec<u32>) -> u32 {
+fn count_increases(input: &[u32]) -> u32 {
     let last = input.len() - 1;
     let mut counter = 0;
     // iterate to the second to last element in input
@@ -70,14 +70,14 @@ fn count_increases(input: &Vec<u32>) -> u32 {
     counter
 }
 
-fn count_range_increases(input: &Vec<u32>, window_size: usize) -> u32 {
+fn count_range_increases(input: &[u32], window_size: usize) -> u32 {
     let last = input.len() - window_size;
     let mut sums: Vec<u32> = Vec::new();
     // iterate to the last element with a valid window size
     for (idx, _number) in input[..=last].iter().enumerate() {
         let end = idx + window_size;
         // generate sum
-            sums.push(input[idx..end].iter().sum())
+        sums.push(input[idx..end].iter().sum());
     }
     count_increases(&sums)
 }
