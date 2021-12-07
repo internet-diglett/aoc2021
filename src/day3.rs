@@ -113,10 +113,9 @@ pub fn sort_by_bit_position(binary_data: &[String], pos: usize) -> (Vec<String>,
     let mut ones: Vec<String> = vec![];
     let mut zeros: Vec<String> = vec![];
     for entry in binary_data.iter() {
-        if entry.chars().nth(pos).expect("Unable to index string") == '1' {
-            ones.push(entry.to_owned())
-        } else {
-            zeros.push(entry.to_owned())
+        match entry.chars().nth(pos).expect("Unable to index string") == '1' {
+            true => ones.push(entry.to_owned()),
+            false => zeros.push(entry.to_owned()),
         }
     }
     (ones, zeros)
@@ -140,10 +139,9 @@ pub fn find_oxygen_rating(binary_data: &[String]) -> usize {
         }
         let (ones, zeros) = sort_by_bit_position(&remaining_numbers, i);
         // reject smaller collection, select ones if tied
-        if ones.len() >= zeros.len() {
-            remaining_numbers = ones;
-        } else {
-            remaining_numbers = zeros;
+        remaining_numbers = match ones.len() >= zeros.len() {
+            true => ones,
+            false => zeros,
         }
     }
     usize::from_str_radix(&remaining_numbers[0], 2).unwrap()
@@ -167,10 +165,9 @@ pub fn find_co2_rating(binary_data: &[String]) -> usize {
         }
         let (ones, zeros) = sort_by_bit_position(&remaining_numbers, i);
         // reject larger collection, select zeros if tied
-        if ones.len() < zeros.len() {
-            remaining_numbers = ones;
-        } else {
-            remaining_numbers = zeros;
+        remaining_numbers = match ones.len() < zeros.len() {
+            true => ones,
+            false => zeros,
         }
     }
     usize::from_str_radix(&remaining_numbers[0], 2).unwrap()
@@ -190,10 +187,9 @@ pub fn generate_gamma_rate(bit_counts: &[usize], data_length: usize) -> u32 {
     let cutoff = data_length / 2;
     let mut result = String::from("");
     for count in bit_counts.iter() {
-        if count > &cutoff {
-            result.push('1');
-        } else {
-            result.push('0');
+        match count > &cutoff {
+            true => result.push('1'),
+            false => result.push('0'),
         }
     }
     u32::from_str_radix(&result, 2).unwrap()
@@ -213,10 +209,9 @@ pub fn generate_epsilon_rate(bit_counts: &[usize], data_length: usize) -> u32 {
     let cutoff = data_length / 2;
     let mut result = String::from("");
     for count in bit_counts.iter() {
-        if count > &cutoff {
-            result.push('0');
-        } else {
-            result.push('1');
+        match count > &cutoff {
+            true => result.push('0'),
+            false => result.push('1'),
         }
     }
     u32::from_str_radix(&result, 2).unwrap()
